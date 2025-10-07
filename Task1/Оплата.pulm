@@ -1,0 +1,15 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person(cassier, "Кассир", "Принимает оплату")
+Person(accountant, "Бухгалтер", "Обрабатывает финансовые данные")
+System(kkm, "ККМ", "Оборудование приёма оплаты")
+System(accounting_1c, "1С:Бухгалтерия", "Учет финансов")
+System(file_server, "Файловый сервер", "Общий диск")
+
+Rel(cassier, kkm, "Оплата услуги")
+Rel(kkm, accounting_1c, "Передача данных об оплате")
+Rel(accountant, accounting_1c, "Обработка финансовых данных")
+Rel(accountant, file_server, "Сохранение чеков и документов")
+
+@enduml

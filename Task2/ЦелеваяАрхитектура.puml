@@ -1,0 +1,23 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+Person(patient, "Пациент", "Использует мобильное приложение для записи к врачу")
+Person(doctor, "Врач", "Просматривает и редактирует медицинские карты")
+Person(admin, "Администратор", "Управляет записью и доступом")
+Person(accountant, "Бухгалтер", "Обрабатывает финансовые данные")
+
+System(med_system, "Медицинская система «Медикаменте»", "Целевая архитектура с защитой данных")
+
+System_Ext(external_laboratory, "Внешняя лаборатория", "Интеграция с API для получения результатов анализов")
+System_Ext(kkm_system, "ККМ", "Оборудование для приёма оплаты")
+System_Ext(buh_1c, "1С:Бухгалтерия", "Файловый режим, интеграция с новой системой")
+
+Rel(patient, med_system, "Запись на приём, просмотр данных")
+Rel(doctor, med_system, "Просмотр и редактирование медицинских карт")
+Rel(admin, med_system, "Управление записью и доступом")
+Rel(accountant, med_system, "Обработка финансовых данных")
+Rel(med_system, external_laboratory, "Интеграция с лабораторией через API")
+Rel(med_system, kkm_system, "Интеграция с ККМ")
+Rel(med_system, buh_1c, "Интеграция с 1С:Бухгалтерия")
+
+@enduml

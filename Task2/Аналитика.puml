@@ -1,0 +1,23 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Container(data_lake, "Озеро данных", "PostgreSQL + S3", "Хранение всех данных компании")
+Container_Boundary(analytics_layer, "Слой аналитики") {
+    Component(data_classifier, "Классификатор данных", "Python + NLP", "Определяет типы данных")
+    Component(data_masker, "Обезличиватель данных", "Tokenization", "Замена PII на токены")
+    Component(bi_engine, "BI-движок", "Tableau / Metabase", "Построение отчетов")
+    Component(ml_engine, "ML-движок", "Spark ML / TensorFlow", "Обучение моделей")
+    Component(data_governor, "Система governance", "Apache Ranger", "Контроль за данными")
+    Component(data_auditor, "Система аудита", "ClickHouse", "Логирование всех операций")
+}
+
+Rel(data_lake, data_classifier, "Чтение данных")
+Rel(data_classifier, data_masker, "Обезличивание")
+Rel(data_masker, bi_engine, "Данные для BI")
+Rel(data_masker, ml_engine, "Данные для ML")
+Rel(data_governor, bi_engine, "Контроль доступа")
+Rel(data_governor, ml_engine, "Контроль доступа")
+Rel(data_auditor, bi_engine, "Логирование")
+Rel(data_auditor, ml_engine, "Логирование")
+
+@enduml

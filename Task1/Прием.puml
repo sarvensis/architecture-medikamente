@@ -1,0 +1,15 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person(doctor, "Врач", "Принимает пациента")
+Person(admin, "Администратор", "Записывает пациента к врачу")
+System(journal, "Журнал врача", "Excel файл")
+System(folder, "Папка пациента", "PDF/сканы")
+System(file_server, "Файловый сервер", "Общий диск")
+
+Rel(admin, journal, "Запись пациента")
+Rel(doctor, journal, "Просмотр записи")
+Rel(doctor, folder, "Добавление медицинских записей")
+Rel(folder, file_server, "Сохранение на общем диске")
+
+@enduml
