@@ -1,0 +1,39 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(patient, "Пациент", "Использует мобильное приложение")
+Person(doctor, "Врач", "Работает с системой через портал")
+Person(admin, "Администратор", "Записывает пациентов и управляет доступом")
+
+System_Ext(external_laboratory, "Внешняя лаборатория", "Интеграция с лабораторией анализов")
+
+System_Boundary(med_system, "Медицинская система «Медикаменте»") {
+    Container(web_app, "Портал пациента", "React/Vue", "Мобильное приложение и веб-портал")
+    Container(doctor_portal, "Портал врача", "React/Vue", "Для просмотра медицинских карт")
+    Container(admin_portal, "Портал администратора", "React/Vue", "Для управления записью и доступом")
+    Container(api_gateway, "API Gateway", "Kong/Nginx", "Точка входа всех запросов")
+    Container(auth_service, "Сервис авторизации", "Keycloak", "RBAC/ABAC, LDAP, SSO")
+    Container(data_classification, "Классификация данных", "Apache Atlas", "Автоматическое тегирование PII")
+    Container(data_protection, "Шлюз защиты данных", "Vault + DLP", "Шифрование, обезличивание, обфускация")
+    Container(data_audit, "Система аудита", "ClickHouse + ELK", "Логирование операций с данными")
+    Container(data_lake, "Озеро данных", "PostgreSQL + S3", "Хранение структурированных и неструктурированных данных")
+    Container(ai_ml_engine, "AI/ML движок", "TensorFlow + Spark", "Обучение моделей на обезличенных данных")
+    Container(data_governance, "Управление данными", "Apache Ranger", "Контроль за использованием данных")
+}
+
+Rel(web_app, api_gateway, "HTTPS")
+Rel(doctor_portal, api_gateway, "HTTPS")
+Rel(admin_portal, api_gateway, "HTTPS")
+Rel(api_gateway, auth_service, "Проверка прав")
+Rel(api_gateway, data_classification, "Классификация данных")
+Rel(api_gateway, data_protection, "Защита данных")
+Rel(api_gateway, data_audit, "Логирование")
+Rel(data_protection, data_lake, "Запись данных")
+Rel(data_classification, data_governance, "Правила доступа")
+Rel(data_lake, ai_ml_engine, "Обезличенные данные для анализа")
+Rel(external_laboratory, data_protection, "Защищённая интеграция\n[REST API]")
+Rel(patient, web_app, "Взаимодействие с системой")
+Rel(doctor, doctor_portal, "Взаимодействие с системой")
+Rel(admin, admin_portal, "Взаимодействие с системой")
+
+@enduml

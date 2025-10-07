@@ -1,0 +1,15 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person(doctor, "Врач", "Получает результаты анализов")
+Person(lab_asisstant, "Лаборант", "Отправляет результаты")
+System(lab_system, "Лабораторная система", "Обработка анализов")
+System(registry, "Реестр результатов", "Excel файл")
+System(file_server, "Файловый сервер", "Общий диск")
+
+Rel(lab_asisstant, lab_system, "Отправка результатов")
+Rel(lab_system, registry, "Экспорт реестра")
+Rel(registry, file_server, "Сохранение на общем диске")
+Rel(doctor, registry, "Просмотр результатов")
+
+@enduml

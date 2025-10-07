@@ -1,0 +1,11 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person(admin, "Администратор", "Регистрирует пациента")
+System(registry, "Журнал пациентов", "Хранится в Excel")
+System(file_server, "Файловый сервер", "Общий диск")
+
+Rel(admin, registry, "Ввод персональных данных")
+Rel(registry, file_server, "Сохранение файла Excel")
+
+@enduml
